@@ -5,34 +5,31 @@
     <meta charset="utf-8">
     <title>What Can I Do For The Internet?</title>
     <link rel="stylesheet" href="https://code.cdn.mozilla.net/fonts/fira.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
     <aside class="sidebar">
         <div class="wcidfti_typo">
-            <span class="typo" id="typo_what">WHAT</span>
-            <span class="typo" id="typo_canido">CAN I DO</span>
-            <span class="typo" id="typo_forthe">FOR THE</span>
-            <span class="typo" id="typo_internet">INTERNET?_</span>
+            <span class="typo typo_what">WHAT</span>
+            <span class="typo typo_canido">CAN I DO</span>
+            <span class="typo typo_forthe">FOR THE</span>
+            <span class="typo typo_internet">INTERNET?_</span>
         </div>
         <span class="rarrow pulse"> > </span>
         <span class="larrow pulse"> < </span>
     </aside>
     <div class="video_container">
-        <!--<div class="overlay_play">
-            <span class="play_arrow"></span>
-        </div>-->
+        <!-- Placeholder video -->
         <iframe id="intro" src="https://player.vimeo.com/video/13590841?api=1&player_id=intro" width="500" height="375" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
-        <!--<video class="compilation_video" poster="http://sandbox.thewikies.com/vfe-generator/images/big-buck-bunny_poster.jpg">
-            <source src="http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4" type="video/mp4" />
-            <source src="http://clips.vorwaerts-gmbh.de/big_buck_bunny.webm" type="video/webm" />
-            <source src="http://clips.vorwaerts-gmbh.de/big_buck_bunny.ogv" type="video/ogg" />
-        </video>-->
     </div>
     <div class="content">
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-        
+        <div class="main">
+            <h1>Select things that interest you</h1>
+            <div class="controls"></div>
+        </div>
+        <div class="selected_interests"></div>
     </div>
     <script src="jq.js"></script>
     <script src="jq.lettering.js"></script>

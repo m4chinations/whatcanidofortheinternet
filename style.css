@@ -8,15 +8,15 @@ body {
     overflow: hidden;
 }
 
-#typo_canido {
+.typo_canido {
     margin-top: -0.5em;
 }
 
-#typo_forthe {
+.typo_forthe {
     margin-top: -0.35em;
 }
 
-#typo_internet {
+.typo_internet {
     margin-top: -0.1em;
     line-height: 0.7;
 }
@@ -56,28 +56,7 @@ body {
     font-style: italic;
     position: absolute;
     top: 9em;
-}
-
-.play_arrow {
-    width: 0;
-    height: 0;
-    border-top: 40px solid transparent;
-    border-bottom: 40px solid transparent;
-    border-left: 60px solid #fff;
-    left: 91px;
-    position: relative;
-    left: 50%;
-    top: 40%;
-    display: block;
-}
-
-.overlay_play {
-    cursor: pointer;
-    width: 100%;
-    height: 100%;
-    opacity: 0.8;
-    background-color: rgb(59, 58, 58);
-    position: absolute;
+    padding-top: 15px;
 }
 .sidebar {
     color: white;
@@ -114,10 +93,13 @@ body {
 .content {
     width: 80%;
     height: 100%;
-    background-color: antiquewhite;
     z-index: 1;
     position: absolute;
     display: none;
+    background-image: linear-gradient(120deg, #D2EDB9 0%, #44BC92 29%, #25A6AB 63%, #12F384 100%);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: 125% 125%;
 }
 
 .video_container {
@@ -132,9 +114,8 @@ body {
 .video_container > iframe {
     width: 100%;
     height: 100%;
-    object-fit: cover;
 }
-#typo_internet > .char10 {
+.typo_internet > .char10 {
   animation: blink 1s steps(5, start) infinite;
 }
 @keyframes blink {
@@ -168,4 +149,93 @@ body {
   transform-origin: center left;
   animation-duration: 1s;
   animation-fill-mode: both;
+}
+
+.passion_selector {
+    width: 14%;
+    float: left;
+    margin-right: 11%;
+    margin-bottom: 2%;
+}
+
+.passion_selector h2 {
+    color: #FFF;
+    font-family: "Fira Sans";
+    display: inline;
+    font-weight: 400;
+    font-size: 18px;
+    margin-left: 3px;
+    -webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.passion_selector_icon {
+    width: 100%;
+    text-align: center;
+    padding: 13% 2%;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 0.6rem;
+    color: white;
+    cursor: pointer;
+    min-width: 100px;
+    text-shadow: 0.5px 0.5px black;
+    transition: 1s ease, background-color 0.3s ease, text-shadow 0.3s ease, transform 1s ease;
+}
+
+.passion_selector_icon:hover {
+    border-color: white;
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+.passion_selector_icon:active {
+    background-color: rgba(34, 62, 161, 0.80);
+    text-shadow: 1px 1px 7px black;
+}
+.selected {
+    background-color: rgba(34, 62, 161, 0.66);
+    text-shadow: 1px 1px 4px black;
+    border-color: white;
+}
+
+.selected:hover {
+    background-color: rgba(34, 62, 161, 0.66);
+    text-shadow: 1px 1px 4px black;
+}
+
+.selected:active {
+    background-color: rgba(34, 62, 161, 0.16);
+    text-shadow: none;
+}
+
+.main {
+    width: 80%;
+    height: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10%;
+}
+
+.main > h1 {
+    color: white;
+    font-family: "Fira Sans";
+    text-shadow: 0.3px 0.3px black;
+    -webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.selected_interests {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    font-size: 30px;
+    height: 7%;
+    background: rgba(0, 26, 36, 0.1);
+}
+
+.selected_interests i {
+    width: 14%;
+    float: left;
+    padding: 0.3% 0 0;
+    height: 100%;
+    text-shadow: 1px 1px 4px #000;
 }
