@@ -8,6 +8,14 @@ body {
     overflow: hidden;
 }
 
+.splash {
+    transition: transform 0.7s ease;
+    z-index: 100;
+    background-color: black;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
 .typo_canido {
     margin-top: -0.5em;
 }
@@ -76,9 +84,6 @@ body {
 
 .bounce_out_left {
     transition: 0.1s ease-out;
-}
-
-.bounce_out_left:hover {
     transform: translate(3%,0);
 }
 
@@ -93,13 +98,13 @@ body {
 .content {
     width: 80%;
     height: 100%;
-    z-index: 1;
     position: absolute;
     display: none;
     background-image: linear-gradient(120deg, #D2EDB9 0%, #44BC92 29%, #25A6AB 63%, #12F384 100%);
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: 125% 125%;
+    min-width: 800px;
 }
 
 .video_container {
@@ -152,59 +157,42 @@ body {
 }
 
 .passion_selector {
-    width: 14%;
     float: left;
-    margin-right: 11%;
-    margin-bottom: 2%;
+    margin-right: 0.5%;
+    min-height: 50px;
+    min-width: 75px;
+    font-size: 14px;
 }
 
-.passion_selector h2 {
+.passion_name {
     color: #FFF;
     font-family: "Fira Sans";
     display: inline;
     font-weight: 400;
-    font-size: 18px;
     margin-left: 3px;
     -webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-}
-
-.passion_selector_icon {
-    width: 100%;
-    text-align: center;
-    padding: 13% 2%;
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    border-radius: 0.6rem;
-    color: white;
     cursor: pointer;
-    min-width: 100px;
-    text-shadow: 0.5px 0.5px black;
-    transition: 1s ease, background-color 0.3s ease, text-shadow 0.3s ease, transform 1s ease;
+    transition: background-color 0.3s ease, text-shadow 0.3s ease, transform 1s ease;
+    border: 1px solid white;
+    border-radius: 26px;
+    padding: 4px 5px 5px 8px;
 }
 
-.passion_selector_icon:hover {
-    border-color: white;
-    background-color: rgba(255, 255, 255, 0.15);
+.unselectable {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
-.passion_selector_icon:active {
-    background-color: rgba(34, 62, 161, 0.80);
-    text-shadow: 1px 1px 7px black;
-}
-.selected {
-    background-color: rgba(34, 62, 161, 0.66);
-    text-shadow: 1px 1px 4px black;
-    border-color: white;
-}
 
-.selected:hover {
-    background-color: rgba(34, 62, 161, 0.66);
-    text-shadow: 1px 1px 4px black;
-}
-
-.selected:active {
-    background-color: rgba(34, 62, 161, 0.16);
-    text-shadow: none;
+.passion_name i {
+    font-size: 12px;
+    margin-left: 4px;
+    display: inline;
 }
 
 .main {
@@ -215,27 +203,45 @@ body {
     margin-top: 10%;
 }
 
-.main > h1 {
+.selected {
+}
+
+.selected h2 {
+    background-color: rgba(122, 69, 151, 0.9);
+    font-weight: 700;
+}
+
+.done_button {
+    margin-top: 21.4333px;
+    margin-bottom: 21.4333px;
+    float: right;
+    color: white;
+    font-family: "Fira Sans";
+    border: 1px solid black;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: 500;
+    font-size: 36px;
+    background-color: rgba(122, 69, 151, 0.6);
+    transition: background-color 0.2s ease;
+    padding: 0 2%;
+    border-color: rgba(255, 255, 255, 0.7);
+}
+
+.done_button:hover {
+    cursor: pointer;
+    background-color: rgba(122, 69, 151, 0.8);
+}
+
+.done_button:active {
+    background-color: rgba(122, 69, 151, 0.9);
+}
+
+.main_heading {
+    display: inline-block;
     color: white;
     font-family: "Fira Sans";
     text-shadow: 0.3px 0.3px black;
     -webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-}
-
-.selected_interests {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    font-size: 30px;
-    height: 7%;
-    background: rgba(0, 26, 36, 0.1);
-}
-
-.selected_interests i {
-    width: 14%;
-    float: left;
-    padding: 0.3% 0 0;
-    height: 100%;
-    text-shadow: 1px 1px 4px #000;
 }

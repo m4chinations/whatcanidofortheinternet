@@ -5,7 +5,6 @@ $(document).ready(function() {
     $('.typo_canido').fitText(0.45);
     $('.typo_forthe').fitText(0.42);
     $('.typo_internet').fitText(0.28);
-    $('.fa').fitText(0.2);
 
     var toggle_state = 'left'; //sidebar toggle
     var iframe = $('#intro')[0];
@@ -16,6 +15,8 @@ $(document).ready(function() {
     var sidebar = $('.sidebar');
     var rightArrow = $('.rarrow');
     var leftArrow = $('.larrow');
+    var interestBar = $('.selected_interests');
+    var splashPanel = $('.splash');
 
     var currentlyMovingInterests = 0;
 
@@ -52,7 +53,7 @@ $(document).ready(function() {
     });
 
 
-    setInterval(function () {
+    var bouncer_interval = setInterval(function () {
         if (toggle_state == 'left' &&
             !sidebar.is(':hover') &&
             isVideo('paused')) {
@@ -67,8 +68,28 @@ $(document).ready(function() {
         }
     }, 1500);
 
+    sidebar.mouseleave(function(event) {
+        bouncer_interval = setInterval(function () {
+            if (toggle_state == 'left' &&
+                !sidebar.is(':hover') &&
+                isVideo('paused')) {
+                    sidebar.toggleClass('bounce');
+                    if (sidebar.hasClass('bounce')) {
+                        rightArrow.fadeIn('slow');
+                        setTimeout(function() {
+                            if (!sidebar.is(':hover'))
+                                rightArrow.fadeOut('slow');
+                        }, 1000);
+                    }
+            }
+        }, 1500);
+    });
+
+    sidebar.mouseenter(function(event) {
+        clearInterval(bouncer_interval);
+    });
+
     $(document).keydown(function(event) {
-        console.log(event);
         if ((event.keyCode == 39 || event.keyCode == 13) && toggle_state == 'left') {
             sidebar.click();
         } else if (event.keyCode == 37 && toggle_state == 'right') {
@@ -77,12 +98,7 @@ $(document).ready(function() {
     });
 
     $('.main').on('click', '.passion_selector', function(event) {
-        var clicked = $(event.target);
-        if (clicked.is('div'))
-            clicked = clicked.children().first();
 
-        selectInterest(clicked, clicked.parent().find('h2').html());
-        currentlyMovingInterests++;
     });
 
     sidebar.hover(function() {
@@ -106,26 +122,36 @@ $(document).ready(function() {
 
     sidebar.click(function(event) {
         if (toggle_state == 'left') {
-            toggle_state = 'moving_left';
-            sidebar.css('left', "calc(100% - "+sidebar.width()+"px)");
-            $('.video_container').css('left', '90%');
+            setTimeout(function(){
+                toggle_state = 'right';
+            }, 300);
+            //sidebar.css('left', "calc(100% - "+sidebar.width()+"px)");
+            //$('.video_container').css('left', '90%');
+            $('.typo_internet > .char10').css('animation', 'none');
+            $('.content').show();
             sidebar.removeClass('bounce_out_left');
             pauseVideo();
-            $('.content').fadeIn();
             populateMain();
-            $('.fa').fitText(0.2);
+            $('.splash').css('transform', 'translate('+ ($(window).width() - sidebar.width()) +'px, 0)');
         } else if (toggle_state == 'right'){
-            $('.video_container').css('left', '20%');
-            toggle_state = 'moving_right';
-            sidebar.css('right', "calc(100% - "+sidebar.width()+"px)");
+            setTimeout(function(){
+                toggle_state = 'left';
+            }, 300);
+            //sidebar.css('right', "calc(100% - "+sidebar.width()+"px)");
+            //$('.video_container').css('left', '20%');
             sidebar.removeClass('bounce_out_right');
-            $('.content').fadeOut();
+            $('.content').hide();
+            $('.splash').css('transform', 'none');
         }
     });
 
-    sidebar.on('webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend', function(e) {
-        if (e.originalEvent.propertyName == 'transform' && !(e.propertyName == 'left' || e.propertyName == 'right'))
-            return;
+
+    $(window).resize(function(event) {
+        $('.splash').css('transform', 'translate('+ ($(window).width() - sidebar.width()) +'px, 0)');
+    });
+
+/**    $('.splash').on('webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend', function(e) {
+        $('.splash').css('transform', 'none');
         if (toggle_state == 'moving_left') {
             toggle_state = 'right';
             sidebar.css('right', '0');
@@ -137,66 +163,82 @@ $(document).ready(function() {
             sidebar.css('right', 'auto');
             sidebar.addClass('bounce_out_left');
         }
-    });
-
-    $('.main').on('webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend', '.passion_selector_icon', function(e) {
-        if (!(e.originalEvent.propertyName == 'transform'))
-            return;
-        var icon = $(e.currentTarget);
-        icon.css('transform', 'none');
-        icon.appendTo('.selected_interests');
-        icon.fitText(0.4);
-        icon.removeClass('selected');
-        currentlyMovingInterests--;
-    });
-
-    function selectInterest(element, interest) {
-        //$('.selected_interests').append('<i class="fa '+interestDict[interest].fa_icon+'"></i>');
-        var translation = getMovementOffsetForInterestIcon(element);
-        element.css('transform', 'translate('+translation.x+'px, '+translation.y+'px)');
-    }
-
-    function getMovementOffsetForInterestIcon(element) {
-        var destination;
-        var left_offset = 0;
-        var bar = $('.selected_interests');
-        if (currentlyMovingInterests > 0) {
-            left_offset += currentlyMovingInterests * (bar.width() * 0.14);
-        }
-        if (bar.children().length) {
-            destination = bar.children().last().offset();
-            destination.left += bar.children().last().width();
-        } else {
-            destination = bar.offset();
-        }
-        destination.left += left_offset;
-        console.log(destination);
-        var currentPos = element.offset();
-        return {
-                'y' : destination.top - currentPos.top,
-                'x' : destination.left - currentPos.left,
-        };
-    }
-
-    function removeInterest(interest) {
-
-    }
-
-
+    });**/
     function populateMain() {
         var interests = randomInterests();
         var interest;
-        var mainContent = $('.main');
+        var interestsDiv = $('.interests');
         for (var i = 0; i < interests.length; i++) {
             interest = interests[i];
-            mainContent.append(interestHTML(interest));
+            interestsDiv.prepend(interestHTML(interest));
         }
     }
+
+    $('.main').on('click', '.passion_name', function(e) {
+        var passion = $(e.target);
+        if (passion.is('h2'))
+            passion = passion.parent();
+        else if (passion.is('i'))
+            passion = passion.parent().parent();
+        passion.toggleClass('selected');
+        passion.find('i').toggleClass('fa-check fa-plus');
+    })
+
+    $('.done_button').click(function(event) {
+        processInterests();
+    });
+
 
     function interestHTML(interest) {
         return interest_template.
                 replace('%fa_icon%', interestDict[interest].fa_icon).
                 replace('%heading%', interest);
+    }
+
+    function getSelectedInterests() {
+        var elems = $('.passion_selector.selected');
+        var interest_names = [];
+        elems.each(function(index, el) {
+            interest_names.push($(el).find('h2').text());
+        });
+        return interest_names;
+    }
+
+    function processInterests() {
+        var interests = getSelectedInterests();
+        $('.interests').fadeOut();
+        $('.done_button').fadeOut(400, function() {
+            $.each(interests, function(index, element) {
+                var do_thisArray = interestDict[element].do_this;
+                var do_this = do_thisArray[Math.floor(Math.random() * do_thisArray.length)];
+                $('.action_items').append(actionHTML(do_this));
+            });
+        });
+    }
+
+    function actionHTML(do_this) {
+        var html = action_template.
+                    replace("%heading%", do_this.heading).
+                    replace("%article%", do_this.blurb);
+        if (typeof do_this.link === 'string') {
+            var link = link_template.replace("%link%", do_this.link);
+            html = html.replace('%footer%', link);
+            if (!do_this.link_title) {
+                html = html.replace("%link_title%", do_this.link);
+            }
+        } else { //else we have multiple links
+            var footer = "";
+            $.each(do_this.link, function(index, element) {
+                footer += link_template.
+                            replace("%link%", element).
+                            replace("%link_title%",
+                                (do_this.link_title && do_this.link_title[index]) ?
+                                    do_this.link_title[index] : element);
+
+            });
+            html = html.replace("%footer%", footer);
+        }
+        return html;
     }
 
 
@@ -220,8 +262,9 @@ $(document).ready(function() {
 
 });
 
-var interest_template = '<div class="passion_selector"><i class="fa %fa_icon% passion_selector_icon"></i><h2>%heading%</h2></div>';
-
+var interest_template = '<div class="passion_selector"><h2 class="passion_name unselectable">%heading%<i class="fa fa-plus"></i></h2></div>';
+var action_template = '<div class="action_item"><heading>%heading%</heading><article>%article%</article><footer>%footer%</footer></div>';
+var link_template = '<a href="%link%">%link_title%</a>';
 
 var interestDict = {
     'photography' : {
@@ -286,6 +329,46 @@ var interestDict = {
                 'heading': "Run a Wikipedia Edit-a-thon",
                 'blurb': "If you run a website, or know someone who does, you should make sure HTTPS is used on your/their website. Soon, every website operator will have the ability to protect their website with HTTPS for free, with LetEncrypt! Follow the project and encrypt your website! ",
                 'link': 'https://letsencrypt.org/',
+            },
+        ],
+    },
+    'learning' : {
+        'fa_icon': 'fa-book',
+        'do_this': [
+            {
+                'heading': "Participate in free courses",
+                'blurb': "A number of Universities have started opening up some of their courses. You can also find community generated courses on wikiversity.",
+                'link': ['https://en.wikiversity.org/','https://www.coursera.org/'],
+            },
+            {
+                'heading': "Learn about the intricacies of everything web",
+                'blurb': "The future of the internet relies on many social and technical sciences. By studinfdsfs",
+                'link': 'https://en.wikipedia.org/?title=Portal:Internet',
+            },
+            {
+                'heading': "Learn To Code!",
+                'blurb': "Coding is more accessable than ever, and you can make your first webpage in minutes!",
+                'link': 'https://code.org/',
+            },
+        ],
+    },
+    'contributing data' : {
+        'fa_icon': 'fa-book',
+        'do_this': [
+            {
+                'heading': "Edit the Open Street Map",
+                'blurb': "Contributing information to OSM helps everyone!",
+                'link': ['openstreetmap.org'],
+            },
+            {
+                'heading': "Stumble for Mozilla",
+                'blurb': "The future of the internet relies on many social and technical sciences. By studinfdsfs",
+                'link': 'https://location.services.mozilla.com/',
+            },
+            {
+                'heading': "Take the Internet Health Test",
+                'blurb': "The Internet Health Test is being used to ensure ISPs are obeying net neutrality rules.",
+                'link': 'https://www.battleforthenet.com/internethealthtest/',
             },
         ],
     },
