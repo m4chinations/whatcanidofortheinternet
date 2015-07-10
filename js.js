@@ -150,20 +150,6 @@ $(document).ready(function() {
         $('.splash').css('transform', 'translate('+ ($(window).width() - sidebar.width()) +'px, 0)');
     });
 
-/**    $('.splash').on('webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend', function(e) {
-        $('.splash').css('transform', 'none');
-        if (toggle_state == 'moving_left') {
-            toggle_state = 'right';
-            sidebar.css('right', '0');
-            sidebar.css('left', 'auto');
-            sidebar.addClass('bounce_out_right');
-        } else if (toggle_state == 'moving_right'){
-            toggle_state = 'left';
-            sidebar.css('left', '0');
-            sidebar.css('right', 'auto');
-            sidebar.addClass('bounce_out_left');
-        }
-    });**/
     function populateMain() {
         var interests = randomInterests();
         var interest;
@@ -208,6 +194,7 @@ $(document).ready(function() {
         var interests = getSelectedInterests();
         $('.interests').fadeOut();
         $('.done_button').fadeOut(400, function() {
+            $('.main_heading').text("Here you go!");
             $.each(interests, function(index, element) {
                 var do_thisArray = interestDict[element].do_this;
                 var do_this = do_thisArray[Math.floor(Math.random() * do_thisArray.length)];
@@ -263,7 +250,7 @@ $(document).ready(function() {
 });
 
 var interest_template = '<div class="passion_selector"><h2 class="passion_name unselectable">%heading%<i class="fa fa-plus"></i></h2></div>';
-var action_template = '<div class="action_item"><heading>%heading%</heading><article>%article%</article><footer>%footer%</footer></div>';
+var action_template = '<div class="action_item"><h3>%heading%</h3><article>%article%</article><footer>%footer%</footer></div>';
 var link_template = '<a href="%link%">%link_title%</a>';
 
 var interestDict = {
