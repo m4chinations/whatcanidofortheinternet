@@ -1,25 +1,28 @@
 $(document).ready(function() {
 
-    $('.typo').lettering();
+
+    /* .fitText is a $ plugin that makes text
+        auto resize to an element's width... the number is just
+        a product of tweaking. http://fittextjs.com/
+    */
+    $('.typo').lettering(); //lettering makes typography easier http://letteringjs.com/
     $('.typo_what').fitText(0.31);
     $('.typo_canido').fitText(0.45);
     $('.typo_forthe').fitText(0.42);
     $('.typo_internet').fitText(0.28);
 
-    var toggle_state = 'left'; //sidebar toggle
-    var iframe = $('#intro')[0];
-    var player = $f(iframe);
-    var status = 'paused';
+    var toggle_state = 'left'; //sidebar toggle state
+    var player = $f($('#intro')[0]); //vimeo api object
+    var status = 'paused'; //video state... no API for it, so manual tracking is needed
 
-
+    /* caching jquery lookups that are used a lot */
     var sidebar = $('.sidebar');
     var rightArrow = $('.rarrow');
     var leftArrow = $('.larrow');
     var interestBar = $('.selected_interests');
     var splashPanel = $('.splash');
 
-    var currentlyMovingInterests = 0;
-
+    /* Usage: isVideo('{playing | paused}'), will return T/F depending if vimeo video is playing */
     function isVideo(st) {
         if (typeof st === 'undefined')
             return false;
@@ -38,38 +41,24 @@ $(document).ready(function() {
     function pauseVideo() {
         player.api('pause');
     }
-
+    /* onPause listener for vimeo API */
     function onPause() {
-        sidebar.addClass('bounce');
+        sidebar.addClass('bounce'); //make the sidebar bounce when paused
         status = 'paused';
     }
+    /* onPlay listener for vimeo API */
     function onPlay() {
-        sidebar.removeClass('bounce');
+        sidebar.removeClass('bounce'); //stop the bouncing sidebar when played
         status = 'playing';
     }
+    /* adding hooks to the vimeo player */
     player.addEvent('ready', function() {
         player.addEvent('pause', onPause);
         player.addEvent('play', onPlay);
     });
 
-
-    var bouncer_interval = setInterval(function () {
-        if (toggle_state == 'left' &&
-            !sidebar.is(':hover') &&
-            isVideo('paused')) {
-                sidebar.toggleClass('bounce');
-                if (sidebar.hasClass('bounce')) {
-                    rightArrow.fadeIn('slow');
-                    setTimeout(function() {
-                        if (!sidebar.is(':hover'))
-                            rightArrow.fadeOut('slow');
-                    }, 1000);
-                }
-        }
-    }, 1500);
-
-    sidebar.mouseleave(function(event) {
-        bouncer_interval = setInterval(function () {
+    function getBouncingInterval() {
+        return setInterval(function () {
             if (toggle_state == 'left' &&
                 !sidebar.is(':hover') &&
                 isVideo('paused')) {
@@ -83,12 +72,21 @@ $(document).ready(function() {
                     }
             }
         }, 1500);
+    }
+
+    var bouncer_interval = getBouncingInterval(); //start the bouncing sidebar
+
+    //on mouseout, start the bouncer again
+    sidebar.mouseleave(function(event) {
+        bouncer_interval = getBouncingInterval();
     });
 
+    //stop the bouncing sidebar when the mouse is in the sidebar
     sidebar.mouseenter(function(event) {
         clearInterval(bouncer_interval);
     });
 
+    // mapping left, right, and enter to sidebar click
     $(document).keydown(function(event) {
         if ((event.keyCode == 39 || event.keyCode == 13) && toggle_state == 'left') {
             sidebar.click();
@@ -97,11 +95,8 @@ $(document).ready(function() {
         }
     });
 
-    $('.main').on('click', '.passion_selector', function(event) {
-
-    });
-
-    sidebar.hover(function() {
+    //when the sidebar is hovered on, toggle some classes and show some stuff
+    sidebar.hover(function() { //mousein
         sidebar.removeClass('bounce');
         if (toggle_state == 'left') {
             sidebar.addClass('bounce_out_left');
@@ -110,7 +105,7 @@ $(document).ready(function() {
             sidebar.addClass('bounce_out_right');
             leftArrow.fadeIn();
         }
-    }, function() {
+    }, function() { //mouseout
         if (isVideo('paused') && toggle_state == 'left') {
             sidebar.addClass('bounce');
         }
@@ -119,26 +114,24 @@ $(document).ready(function() {
     });
 
 
-
+    //handle the click. should scroll the page back and forth between the selection view and video view
     sidebar.click(function(event) {
         if (toggle_state == 'left') {
+            /* lazy timeouts to toggle the state once a click is done */
             setTimeout(function(){
                 toggle_state = 'right';
             }, 300);
-            //sidebar.css('left', "calc(100% - "+sidebar.width()+"px)");
-            //$('.video_container').css('left', '90%');
-            $('.typo_internet > .char10').css('animation', 'none');
-            $('.content').show();
+            $('.typo_internet > .char10').css('animation', 'none'); //stop the blinking cursor to minimize painting during transition
+            $('.content').show(); //show the main content div
             sidebar.removeClass('bounce_out_left');
             pauseVideo();
             populateMain();
+            /* translate the entire video view right, uncovering the main view*/
             $('.splash').css('transform', 'translate('+ ($(window).width() - sidebar.width()) +'px, 0)');
         } else if (toggle_state == 'right'){
             setTimeout(function(){
                 toggle_state = 'left';
             }, 300);
-            //sidebar.css('right', "calc(100% - "+sidebar.width()+"px)");
-            //$('.video_container').css('left', '20%');
             sidebar.removeClass('bounce_out_right');
             $('.content').hide();
             $('.splash').css('transform', 'none');
@@ -146,6 +139,7 @@ $(document).ready(function() {
     });
 
 
+    /* resize listener to correct .splash translation */
     $(window).resize(function(event) {
         $('.splash').css('transform', 'translate('+ ($(window).width() - sidebar.width()) +'px, 0)');
     });
@@ -190,6 +184,8 @@ $(document).ready(function() {
         return interest_names;
     }
 
+    /* called when the user presses i'm done. this function calls the
+        actionHTML function with the users' data to produce the action items */
     function processInterests() {
         var interests = getSelectedInterests();
         $('.interests').fadeOut();
@@ -203,6 +199,7 @@ $(document).ready(function() {
         });
     }
 
+    /* creates HTML from a specitic do_this entry */
     function actionHTML(do_this) {
         var html = action_template.
                     replace("%heading%", do_this.heading).
@@ -228,7 +225,8 @@ $(document).ready(function() {
         return html;
     }
 
-
+    /* returns a list of 8 random interests selected from interestDict.
+        right now there may be repeats genereted */
     function randomInterests() {
         var interests = [];
         for (var interest in interestDict) {
