@@ -245,3 +245,25 @@ body {
     -webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
+.action_item footer a {
+        color: #005387;
+}
+.action_item article {
+    font-family: "Fira Sans";
+    font-weight: 200;
+    color: white;
+    font-size: 21px;
+}
+.action_item {
+    padding: 3px 0 5px 3px;
+    margin-top: 3px;
+}
+.action_item h3 {
+    font-size: 25px;
+    margin: 0;
+    color: white;
+    font-family: "Fira Sans";
+    text-shadow: 0.3px 0.3px black;
+    -webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
