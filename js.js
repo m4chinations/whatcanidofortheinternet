@@ -1,6 +1,4 @@
 $(document).ready(function() {
-
-
     /* .fitText is a $ plugin that makes text
         auto resize to an element's width... the number is just
         a product of tweaking. http://fittextjs.com/
@@ -148,6 +146,9 @@ $(document).ready(function() {
         var interests = randomInterests();
         var interest;
         var interestsDiv = $('.interests');
+
+        interestsDiv.empty();
+        
         for (var i = 0; i < interests.length; i++) {
             interest = interests[i];
             interestsDiv.prepend(interestHTML(interest));
