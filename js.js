@@ -131,9 +131,9 @@ $(document).ready(function() {
         } else if (toggle_state == 'right'){
             setTimeout(function(){
                 toggle_state = 'left';
+                //$('.content').hide();
             }, 300);
             sidebar.removeClass('bounce_out_right');
-            $('.content').hide();
             $('.splash').css('transform', 'none');
         }
     });
@@ -148,6 +148,9 @@ $(document).ready(function() {
         var interests = randomInterests();
         var interest;
         var interestsDiv = $('.interests');
+
+        interestsDiv.empty();
+
         for (var i = 0; i < interests.length; i++) {
             interest = interests[i];
             interestsDiv.prepend(interestHTML(interest));
