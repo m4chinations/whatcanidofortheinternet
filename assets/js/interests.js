@@ -1,7 +1,27 @@
 var interest_template = '<div class="passion_selector"><h2 class="passion_name unselectable">%heading%<i class="fa fa-plus"></i></h2></div>';
 var action_template = '<div class="action_item"><h3>%heading%</h3><article>%article%</article><footer>%footer%</footer></div>';
 var link_template = '<a href="%link%">%link_title%</a>';
+
+var orgs = { 
+    'publicknowledge' : {
+        'logo' : 'https://pbs.twimg.com/profile_images/1865408042/plainlogo_400x400.png'
+    }
+};
+
 var interestDict = {
+    'patents' : {
+        'fa_icon': 'fa-laptop',
+        'do_this': [
+            {
+                'heading': "End Patent Trolls",
+                'blurb': "Patent Trolls curb innovation by hoarding overly-broad patents and by filing lawsuits against young startups, and even software users. These trolls often don't produce anything, and make all their money through their extortion scheme. ",
+                'link': 'http://fixpatents.org',
+                'link_text': 'Learn more, and pledge your support.',
+                'video' : '<iframe width="560" height="315" src="https://www.youtube.com/embed/Il9nXHoprsU" frameborder="0" allowfullscreen></iframe>',
+                'orgs' : ['publicknowledge']
+            },
+        ],
+    },
     'photography' : {
         'fa_icon': 'fa-camera-retro',
         'do_this': [
