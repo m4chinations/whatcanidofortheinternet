@@ -2,11 +2,25 @@ var interest_template = '<div class="passion_selector"><h2 class="passion_name u
 var action_template = '<div class="action_item"><h3>%heading%</h3><article>%article%</article><footer>%footer%</footer></div>';
 var link_template = '<a href="%link%">%link_title%</a>';
 
-var orgs = { 
-    'publicknowledge' : {
+var organizationArray = [
+    { 
+        'name' : 'Public Knowledge',
+        'url' : 'http://publicknowledge.org',
         'logo' : 'https://pbs.twimg.com/profile_images/1865408042/plainlogo_400x400.png'
     }
-};
+];
+
+
+var actionItemArray = [
+    {
+        'heading' : 'End Patent Trolls',
+        'blurb' : 'Patent Trolls curb innovation by hoarding overly-broad patents and by filing lasuits against young startups, and even software users. These trolls often don\'t produce anything, and make all their money through their extortion scheme.',
+        'link' : {
+            'url' : 'http://fixpatents.org',
+            'title' : 'Learn more, then pledge your support.'
+        }
+    }
+];
 
 var interestDict = {
     'patents' : {
