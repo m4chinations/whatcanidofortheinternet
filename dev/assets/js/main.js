@@ -28,10 +28,7 @@ var editor = new JSONEditor(element, {
                 }, 
                 blurb : {
                     type : 'string',
-                    format : 'markdown',
-                    options : { 
-                        expand_height : true
-                    }
+                    format : 'textarea',
                 },
                 link : {
                     type : 'object',
@@ -107,17 +104,3 @@ document.getElementById('json').addEventListener('click',function() {
         document.getElementById('main').appendChild(code);
     }
 });
-
-
-JSONEditor.plugins.epiceditor = {
-    basePath : './assets/epic',
-    useNativeFullScreen : false,
-    parser : marked,
-    autogrow : true,
-    button : {
-        fullscreen : false
-    },
-    theme : {
-        editor : '/themes/editor/epic-light.css',
-    }
-};
